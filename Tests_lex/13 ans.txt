@@ -1,0 +1,6 @@
+1 1 Real 17e5 1700000
+2 1 Real 17.0e+5 1700000
+2 8 Operator *
+2 9 Integer 13 13
+3 1 Real 0.155e-2 0.00155
+4 1 Error 17.0e

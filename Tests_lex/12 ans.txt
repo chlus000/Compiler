@@ -1,0 +1,9 @@
+1 1 Integer 1 1
+1 2 Delimiter .. 
+1 4 Integer 10 10
+2 1 Delimiter ..
+3 1 Integer 1 1
+3 2 Delimiter ..
+3 4 Delimiter .
+4 1 Delimiter ..
+4 3 Delimiter .

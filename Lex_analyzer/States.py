@@ -3,19 +3,23 @@ class State(object):
 
     def __init__(self):
         self.States={'S':{"'":'StrStart','"':'F','Ident':'Ident','Int':'Int','_':'Ident','+':'Delim','-':'Delim','*':'Delim',':':'Delim',';':'Delim',',':'Delim','.':'DoublePoint','>':'Delim','<':'Delim',
-                        '=':'Delim','[':'Delim',']':'Delim','^':'Delim','@':'Err','/':'Slash','{':'ManyCom{','}':'Err','(':'OpBracket',')':'Delim',' ':'S', '\n':'S', '\t':'S','\0':'S', '\r':'S','':'F','?':'D', '%':'Int2','&': 'Int8','$': 'Int16'},
-                    'Ident':{'"':'F',"'":'Err','Ident':'Ident','Int':'Ident','_':'Ident','+':'F','-':'F','*':'F',':':'F',';':'F',',':'F','.':'F','>':'F','<':'F',
+                        '=':'Delim','[':'Delim',']':'Delim','^':'Delim','@':'ErrSynt','/':'Slash','{':'ManyCom{','}':'ErrSynt','(':'OpBracket',')':'Delim',' ':'S', '\n':'S', '\t':'S','\0':'S', '\r':'S','':'F','?':'D', '%':'Int2','&': 'Int8','$': 'Int16','#':'Cont'},
+                    'Ident':{'"':'F',"'":'ErrSynt','Ident':'Ident','Int':'Ident','_':'Ident','+':'F','-':'F','*':'F',':':'F',';':'F',',':'F','.':'F','>':'F','<':'F',
                             '=':'F','[':'F',']':'F','^':'F','@':'F','/':'F','{':'F','}':'F','(':'F',')':'F',' ':'F', '\n':'F', '\t':'F', '':'F'},
                     'StrStart':{"'":'StrEnd','"':'F','Str':'Str','Int':'Str','_':'Str','+':'Str','-':'Str','*':'Str',':':'Str',';':'Str',',':'Str','.':'Str','>':'Str','<':'Str',
-                                '=':'Str','[':'Str',']':'Str','^':'Str','@':'Str','/':'Str','{':'Str','}':'Str','(':'Str',')':'F',' ':'Str', '\n':'Err', '\t':'Str','':'Err','\\':'Str','%':'Str','&': 'Str','$': 'Str'},
+                                '=':'Str','[':'Str',']':'Str','^':'Str','@':'Str','/':'Str','{':'Str','}':'Str','(':'Str',')':'F',' ':'Str', '\n':'ErrStr', '\t':'Str','':'ErrStr','\\':'Str','%':'Str','&': 'Str','$': 'Str'},
                     'Str':{"'":'StrEnd','"':'F','Str':'Str','Int':'Str','_':'Str','+':'Str','-':'Str','*':'Str',':':'Str',';':'Str',',':'Str','.':'Str','>':'Str','<':'Str',
-                            '=':'Str','[':'Str',']':'Str','^':'Str','@':'Str','/':'Str','{':'Str','}':'Str','(':'Str',')':'F',' ':'Str', '\n':'Err', '\t':'Str','':'Err','\\':'Str'},
+                            '=':'Str','[':'Str',']':'Str','^':'Str','@':'Str','/':'Str','{':'Str','}':'Str','(':'Str',')':'F',' ':'Str', '\n':'ErrStr', '\t':'Str','':'ErrStr','\\':'Str'},
                     'StrEnd':{"'":'F','"':'F','Str':'F','Int':'F','_':'F','+':'F','-':'F','*':'F',':':'F',';':'F',',':'F','.':'F','>':'F','<':'F',
-                            '=':'F','[':'F',']':'F','^':'F','@':'F','/':'F','{':'F','}':'F','(':'F',')':'F',' ':'F', '\n':'F', '\t':'F','':'F'},
-                    'Int':{"'":'Err','"':'F','e':'RealE','E':'RealE','Ident':'Err','Int':'Int','_':'Err','+':'F','-':'F','*':'F',':':'F',';':'F',',':'F','.':'Point','>':'F','<':'F',
+                            '=':'F','[':'F',']':'F','^':'F','@':'F','/':'F','{':'F','}':'F','(':'F',')':'F',' ':'F', '\n':'F', '\t':'F','':'F','#':'Cont'},
+                    'Cont':{"'":'ErrStrCont','"':'ErrStrCont','Str':'ErrStrCont','Int':'IntStr','_':'ErrStrCont','+':'ErrStrCont','-':'ErrStrCont','*':'ErrStrCont',':':'ErrStrCont',';':'ErrStrCont',',':'ErrStrCont','.':'ErrStrCont','>':'ErrStrCont','<':'ErrStrCont',
+                            '=':'ErrStrCont','[':'ErrStrCont',']':'ErrStrCont','^':'ErrStrCont','@':'ErrStrCont','/':'ErrStrCont','{':'ErrStrCont','}':'ErrStrCont','(':'ErrStrCont',')':'ErrStrCont',' ':'ErrStrCont', '\n':'ErrStrCont', '\t':'ErrStrCont','':'ErrStrCont','#':'ErrStrCont'},
+                    'IntStr':{"'":'StrStart','"':'ErrStr','Str':'ErrStr','Int':'IntStr','_':'F','+':'F','-':'F','*':'F',':':'F',';':'F',',':'F','.':'F','F':'F','<':'F',
+                            '=':'F','[':'F',']':'F','^':'F','@':'F','/':'F','{':'F','}':'F','(':'F',')':'F',' ':'F', '\n':'F', '\t':'F','':'F','#':'Cont'},
+                    'Int':{"'":'ErrSynt','"':'F','e':'RealE','E':'RealE','Ident':'ErrSynt','Int':'Int','_':'ErrSynt','+':'F','-':'F','*':'F',':':'F',';':'F',',':'F','.':'Point','>':'F','<':'F',
                             '=':'F','[':'F',']':'F','^':'F','@':'F','/':'F','{':'F','}':'F','(':'F',')':'F',' ':'F', '\n':'F', '\t':'F', '':'F'},
-                    'Point':{"'":'Err','"':'F','Ident':'Err','Int':'Real','_':'Err','+':'F','-':'F','*':'F',':':'F',';':'F',',':'F','.':'DoublePoint','>':'F','<':'F',
-                            '=':'F','[':'F',']':'F','^':'F','@':'F','/':'F','{':'F','}':'F','(':'F',')':'F',' ':'F', '\n':'F', '\t':'F', '':'Err'},
+                    'Point':{"'":'ErrSynt','"':'F','Ident':'ErrSynt','Int':'Real','_':'ErrSynt','+':'F','-':'F','*':'F',':':'F',';':'F',',':'F','.':'DoublePoint','>':'F','<':'F',
+                            '=':'F','[':'F',']':'F','^':'F','@':'F','/':'F','{':'F','}':'F','(':'F',')':'F',' ':'F', '\n':'F', '\t':'F', '':'F'},
                     'DoublePoint':{'':'F','.':'DoublePointEnd','\n':'F','Ident':'F','Int':'F'},
                     'DoublePointEnd':{'':'F','.':'F','\n':'F','Ident':'F','Int':'F'},
                     'Int2':{"'":'F','"':'F','Ident':'F','Int':'Int2','_':'F','+':'F','-':'F','*':'F',':':'F',';':'F',',':'F','.':'F','>':'F','<':'F',
@@ -26,30 +30,30 @@ class State(object):
                         '=':'F','[':'F',']':'F','^':'F','@':'F','/':'F','{':'F','}':'F','(':'F',')':'F',' ':'F', '\n':'F', '\t':'F', '':'F'},
                     'Delim':{"'":'F','"':'F','Ident':'F','Int':'F','_':'F','+':'F','-':'F','*':'F',':':'Delim',';':'F',',':'Delim','.':'Delim','>':'Delim','<':'Delim',
                         '=':'Delim','[':'F',']':'F','^':'F','@':'F','/':'F','{':'F','}':'F','(':'F',')':'F',' ':'F', '\n':'F', '\t':'F', '':'F'},
-                    'Slash':{"'":'F','"':'F','Ident':'F','Int':'F','_':'F','+':'F','-':'F','*':'F',':':'F',';':'Err',',':'Err','.':'Err','>':'F','<':'F',
+                    'Slash':{"'":'F','"':'F','Ident':'F','Int':'F','_':'F','+':'F','-':'F','*':'F',':':'F',';':'ErrSynt',',':'ErrSynt','.':'ErrSynt','>':'F','<':'F',
                         '=':'F','[':'F',']':'F','^':'F','@':'F','/':'OneCom','{':'F','}':'F','(':'F',')':'F',' ':'F', '\n':'F', '\t':'F', '':'F'},
                     'OneCom':{"'":'OneCom','"':'OneCom','Ident':'OneCom','Int':'OneCom','_':'OneCom','+':'OneCom','-':'OneCom','*':'OneCom',':':'OneCom',';':'OneCom',',':'OneCom',
                     '.':'OneCom','>':'OneCom','<':'OneCom','=':'OneCom','[':'OneCom',']':'OneCom','^':'OneCom','@':'OneCom','/':'OneCom','{':'OneCom','}':'OneCom','(':'OneCom',
                     ')':'OneCom',' ':'OneCom', '\n':'S', '\t':'OneCom', '':'S','\\':'OneCom','%':'OneCom','&': 'OneCom','$': 'OneCom'},
                     'ManyCom{':{"'":'ManyCom{','"':'F','Ident':'ManyCom{','Int':'ManyCom{','_':'ManyCom{','+':'ManyCom{','-':'ManyCom{','*':'ManyCom{',':':'ManyCom{',';':'ManyCom{',
                                 ',':'ManyCom{','.':'ManyCom{','>':'ManyCom{','<':'ManyCom{', '=':'ManyCom{','[':'ManyCom{',']':'ManyCom{','^':'ManyCom{','@':'ManyCom{','/':'ManyCom{',
-                                '{':'ManyCom{','}':'ManyCom}','(':'ManyCom{',')':'F',' ':'ManyCom{', '\n':'ManyCom{', '\t':'ManyCom{','':'Err','\\':'ManyCom{','%':'ManyCom{','&': 'ManyCom{','$': 'ManyCom{'},
+                                '{':'ManyCom{','}':'ManyCom}','(':'ManyCom{',')':'F',' ':'ManyCom{', '\n':'ManyCom{', '\t':'ManyCom{','':'ErrSynt','\\':'ManyCom{','%':'ManyCom{','&': 'ManyCom{','$': 'ManyCom{'},
                     'ManyCom}':{'':'S','\n':'S'},
                     'OpBracket':{"'":'F','"':'F','Ident':'F','Int':'F','_':'F','+':'F','-':'F','*':'ManyCom(*',':':'F',';':'F',',':'F','.':'F','>':'F','<':'F',
                         '=':'F','[':'F',']':'F','^':'F','@':'F','/':'F','{':'F','}':'F','(':'F',')':'F',' ':'F', '\n':'F', '\t':'F', '':'F'},
                     'ManyCom(*':{"'":'ManyCom(*','"':'F','Ident':'ManyCom(*','Int':'ManyCom(*','_':'ManyCom(*','+':'ManyCom(*','-':'ManyCom(*','*':'Close*',':':'ManyCom(*',';':'ManyCom(*',
                                 ',':'ManyCom(*','.':'ManyCom(*','>':'ManyCom(*','<':'ManyCom(*', '=':'ManyCom(*','[':'ManyCom(*',']':'ManyCom(*','^':'ManyCom(*','@':'ManyCom(*','/':'ManyCom(*',
-                                '{':'ManyCom(*','}':'ManyCom(*','(':'ManyCom(*',')':'F',' ':'ManyCom(*', '\n':'ManyCom(*', '\t':'ManyCom(*','':'Err','\\':'ManyCom(*','%':'ManyCom(*','&': 'ManyCom(*','$': 'ManyCom(*'},
+                                '{':'ManyCom(*','}':'ManyCom(*','(':'ManyCom(*',')':'F',' ':'ManyCom(*', '\n':'ManyCom(*', '\t':'ManyCom(*','':'ErrSynt','\\':'ManyCom(*','%':'ManyCom(*','&': 'ManyCom(*','$': 'ManyCom(*'},
                     'Close*':{"'":'ManyCom(*','"':'F','Ident':'ManyCom(*','Int':'ManyCom(*','_':'ManyCom(*','+':'ManyCom(*','-':'ManyCom(*','*':'Close*',':':'ManyCom(*',';':'ManyCom(*',
                                 ',':'ManyCom(*','.':'ManyCom(*','>':'ManyCom(*','<':'ManyCom(*', '=':'ManyCom(*','[':'ManyCom(*',']':'ManyCom(*','^':'ManyCom(*','@':'ManyCom(*','/':'ManyCom(*',
-                                '{':'ManyCom(*','}':'ManyCom(*','(':'ManyCom(*',')':'ManyCom*)',' ':'ManyCom(*', '\n':'ManyCom(*', '\t':'ManyCom(*','':'Err','\\':'ManyCom(*'},
+                                '{':'ManyCom(*','}':'ManyCom(*','(':'ManyCom(*',')':'ManyCom*)',' ':'ManyCom(*', '\n':'ManyCom(*', '\t':'ManyCom(*','':'ErrSynt','\\':'ManyCom(*'},
                     'ManyCom*)':{'':'S','\n':'S'},
-                    'Real':{"'":'Err','"':'F','e':'RealE','E':'RealE','Ident':'Err','Int':'Real','_':'Err','+':'F','-':'F','*':'F',':':'F',';':'F',',':'F','.':'Point','>':'F','<':'F',
+                    'Real':{"'":'ErrSynt','"':'F','e':'RealE','E':'RealE','Ident':'ErrSynt','Int':'Real','_':'ErrSynt','+':'F','-':'F','*':'F',':':'F',';':'F',',':'F','.':'Point','>':'F','<':'F',
                         '=':'F','[':'F',']':'F','^':'F','@':'F','/':'F','{':'F','}':'F','(':'F',')':'F',' ':'F', '\n':'F', '\t':'F', '':'F'},
-                    'RealE':{"'":'Err','"':'F','Ident':'Err','Int':'RealE','_':'Err','+':'ReadlEOp','-':'ReadlEOp','*':'F',':':'F',';':'F',',':'F','.':'Err','>':'F','<':'F',
-                        '=':'F','[':'F',']':'F','^':'F','@':'F','/':'F','{':'F','}':'F','(':'F',')':'F',' ':'F', '\n':'F', '\t':'F', '':'Err'},
+                    'RealE':{"'":'ErrSynt','"':'F','Ident':'ErrSynt','Int':'RealE','_':'ErrSynt','+':'ReadlEOp','-':'ReadlEOp','*':'F',':':'F',';':'F',',':'F','.':'ErrSynt','>':'F','<':'F',
+                        '=':'F','[':'F',']':'F','^':'F','@':'F','/':'F','{':'F','}':'F','(':'F',')':'F',' ':'F', '\n':'F', '\t':'F', '':'ErrSynt'},
                     'ReadlEOp':{'Int':'RealNum'},
-                    'RealNum':{"'":'F','"':'F','Ident':'Err','Int':'RealNum','_':'F','+':'F','-':'F','*':'F',':':'F',';':'F',',':'F','.':'Err','>':'F','<':'F',
+                    'RealNum':{"'":'F','"':'F','Ident':'ErrSynt','Int':'RealNum','_':'F','+':'F','-':'F','*':'F',':':'F',';':'F',',':'F','.':'ErrSynt','>':'F','<':'F',
                         '=':'F','[':'F',']':'F','^':'F','@':'F','/':'F','{':'F','}':'F','(':'F',')':'F',' ':'F', '\n':'F', '\t':'F', '':'F'}}
         
         
@@ -85,10 +89,11 @@ class State(object):
             return ch
         
     def GetNextState(self,ch,state):
-        ch=self.LetterNumCheck(ch,state)
         try:
-            return self.States[state][ch]
+            newch=self.LetterNumCheck(ch,state)
+            return self.States[state][newch]
         except:
-            return 'Err'
+            if ch.isalpha():
+                return 'ErrSynt'
 
             

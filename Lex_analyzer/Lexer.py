@@ -1,6 +1,7 @@
 from Lex_analyzer.Lexeme import Lexeme
 from Lex_analyzer.States import State
 from Lex_analyzer.Analyzer import Analyzer
+import re
 
 class Lexer:
     def __init__(self,test):
@@ -20,7 +21,7 @@ class Lexer:
 
     def NewLex(self):
         self.newstate='S'
-        while self.newstate!='F' and self.newstate!='Err':
+        while self.newstate!='F' and 'err' not in self.newstate.lower():
             self.state=self.newstate
             if self.state=='S':
                 self.buff_clear()
@@ -30,9 +31,24 @@ class Lexer:
             if self.newstate!='F':
                 self.add_to_buff()
                 self.next_char()
+        
         self.state=self.analyze.type_getter(self.newstate,self.state,self.buff)
-        self.num=self.analyze.checking_num(self.state,self.buff)
-        if self.state == "Error":
+        self.num,self.state=self.analyze.checking_num(self.state,self.buff)
+        if self.state=='String':
+            if re.sub(r"'(.*?)'",'',self.buff)!='':
+                for_string=re.sub(r"'(.*?)'",' ',self.buff).split(' ')
+                
+                for i in range (len(for_string)):
+                    if for_string[i]!='':
+                        for_string[i]=''.join(chr(int(j)) for j in for_string[i].split('#')[1:])
+                string_left=re.findall(r"'(.*?)'",self.buff)
+                res=''
+                for i in range(len(for_string)-1):
+                    res+=for_string[i]+string_left[i]
+                res+=for_string[len(for_string)-1]
+                self.num=res
+        
+        if  "error" in self.state.lower():
             return Lexeme(self.line_lex, self.start_pos_lex,self.state,self.buff,'',True)
         else:
             return Lexeme(self.line_lex, self.start_pos_lex,self.state,self.buff,self.num, False)

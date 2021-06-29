@@ -1,0 +1,5 @@
+1 1 Keyword begin 
+4 1 Integer 12 12
+4 3 Operator - 
+4 4 Integer 32 32
+4 6   

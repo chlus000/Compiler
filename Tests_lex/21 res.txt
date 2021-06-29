@@ -1,0 +1,4 @@
+1 1 String 'A tabulator character: '#9' is easy to embed' 
+2 1 String 'A tabulator character: '#9#10' is easy to embed' 
+3 1 String #9'A tabulator character: '#9 
+3 30   

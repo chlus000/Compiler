@@ -1,0 +1,33 @@
+1 1 Keyword const 
+1 7 Identifier Pi 
+1 10 Operator = 
+1 12 Real 3.1415 3.1415
+1 18 Delimiter ; 
+3 1 Keyword begin 
+4 3 Keyword var 
+4 7 Identifier r 
+4 9 Operator := 
+4 12 Keyword ReadReal 
+4 20 Delimiter ( 
+4 21 String 'Введите радиус круга: ' 
+4 45 Delimiter ) 
+4 46 Delimiter ; 
+5 3 Keyword var 
+5 7 Identifier S 
+5 9 Operator := 
+5 12 Identifier Pi 
+5 14 Operator * 
+5 15 Identifier r 
+5 16 Operator * 
+5 17 Identifier r 
+5 18 Delimiter ; 
+6 3 Keyword Println 
+6 10 Delimiter ( 
+6 11 String 'Площадь круга равна ' 
+6 33 Delimiter , 
+6 34 Identifier S 
+6 35 Delimiter ) 
+6 36 Delimiter ; 
+7 1 Keyword end 
+7 4 Delimiter . 
+7 5   
